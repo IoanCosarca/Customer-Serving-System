@@ -81,7 +81,7 @@ public class SimulationManager implements Runnable, ActionListener {
                 //frame.Log.setText(log);
                 myWriter.write(log);
                 currentTime++;
-                Thread.sleep(1000);
+                Thread.sleep(100);
             }
             double avgWait = scheduler.servers.get(0).getTotalWait() / (double) scheduler.servers.get(0).getNrClientsServed();
             frame.AvgWaitTime.setText(String.valueOf(avgWait));

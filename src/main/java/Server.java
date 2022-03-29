@@ -23,6 +23,7 @@ public class Server implements Runnable {
     {
         try
         {
+            //Thread.sleep(10);
             tasks.put(newTask);
             waitingPeriod.addAndGet(newTask.getServiceTime());
             TotalWait.addAndGet(waitingPeriod.get());
@@ -42,7 +43,7 @@ public class Server implements Runnable {
                 Task nextTask = tasks.peek();
                 if (nextTask != null)
                 {
-                    Thread.sleep(1000L * nextTask.getServiceTime());
+                    Thread.sleep(100 * nextTask.getServiceTime());
                     tasks.take();
                 }
             }
