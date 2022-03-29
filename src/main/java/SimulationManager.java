@@ -49,19 +49,15 @@ public class SimulationManager implements Runnable, ActionListener {
     }
 
     @Override
-    public void run()
-    {
-        try
-        {
+    public void run() {
+        try {
             int currentTime = 0;
             FileWriter myWriter = new FileWriter("log.txt", true);
             myWriter.write("================================================\nSimulation\n");
-            ArrayList <Task> Remove = new ArrayList <>();
-            while (currentTime < timeLimit)
-            {
+            ArrayList<Task> Remove = new ArrayList<>();
+            while (currentTime < timeLimit) {
                 for (Task t : generatedTasks) {
-                    if (t.getArrivalTime() == currentTime)
-                    {
+                    if (t.getArrivalTime() == currentTime) {
                         scheduler.dispatchTask(t);
                         Remove.add(t);
                     }
@@ -73,15 +69,10 @@ public class SimulationManager implements Runnable, ActionListener {
                     generatedTasks.remove(task);
                 }
                 ComputePeekHour(currentTime);
-
                 String log = "Time " + currentTime + "\nWaiting clients: ";
                 if (generatedTasks.isEmpty()) {
                     log += "empty\n";
-                }
-                else {
-                    log += generatedTasks.toString() + "\n";
-                }
-
+                } else log += generatedTasks.toString() + "\n";
                 for (int i = 0; i < numberOfServers; i++) {
                     log += "Queue " + (i + 1) + ": " + scheduler.getServers().get(i).toString() + "\n";
                 }
@@ -92,16 +83,15 @@ public class SimulationManager implements Runnable, ActionListener {
                 currentTime++;
                 Thread.sleep(1000);
             }
-            double avgWait = scheduler.servers.get(0).getTotalWait() / (double)scheduler.servers.get(0).getNrClientsServed();
+            double avgWait = scheduler.servers.get(0).getTotalWait() / (double) scheduler.servers.get(0).getNrClientsServed();
             frame.AvgWaitTime.setText(String.valueOf(avgWait));
-            double avgService = scheduler.servers.get(0).getTotalService() / (double)scheduler.servers.get(0).getNrClientsServed();
+            double avgService = scheduler.servers.get(0).getTotalService() / (double) scheduler.servers.get(0).getNrClientsServed();
             frame.AvgServiceTime.setText(String.valueOf(avgService));
             frame.PHour.setText(String.valueOf(PeakHour));
             String finalResults = "Average Waiting Time: " + avgWait + "\nAverage Service Time: " + avgService + "\nPeak Hour: " + PeakHour + "\n\n";
             myWriter.write(finalResults);
             myWriter.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
